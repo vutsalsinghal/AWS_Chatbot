@@ -35,7 +35,7 @@ class Home extends Component {
                 <br /><br /><br />
                 <h3>Start Chatting Now!</h3>
                 <br /><br />
-                <Link to='/chat'><Button primary>Chat</Button></Link>
+                <Link to='/AWS_Chatbot/chat'><Button primary>Chat</Button></Link>
                 <br /><br /><br />
               </Card.Description>
             </Card.Content>
