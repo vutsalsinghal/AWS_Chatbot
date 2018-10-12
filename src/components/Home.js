@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Grid, Loader, Dimmer} from 'semantic-ui-react';
+import {Grid, Loader, Dimmer, Card, Button} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 class Home extends Component {
   state = {
@@ -11,8 +12,6 @@ class Home extends Component {
     document.title = "Chatbot";
     this.setState({loadingData:false});
   }
-
-
 
   render() {
     if(this.state.loadingData){
@@ -26,15 +25,21 @@ class Home extends Component {
     return (
       <div>
         <h1></h1>
-        <Grid stackable>
-          <Grid.Column width={12}>
-            
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <Grid.Row>
-              Sup man!
-            </Grid.Row>
-          </Grid.Column>
+        <Grid centered stackable><br /><br /><br />
+          <Card fluid color='green'>
+            {/*<Image src='/images/avatar/large/matthew.png' />*/}
+            <Card.Content>
+              <br /><br />
+              <Card.Header><h1>Hi There!</h1></Card.Header>
+              <Card.Description>
+                <br /><br /><br />
+                <h3>Start Chatting Now!</h3>
+                <br /><br />
+                <Link to='/chat'><Button primary>Chat</Button></Link>
+                <br /><br /><br />
+              </Card.Description>
+            </Card.Content>
+          </Card>
         </Grid>
       </div>
     );

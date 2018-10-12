@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Loader, Dimmer, Form, Button, Message, Input} from 'semantic-ui-react';
+import {Grid, Loader, Dimmer, Form, Button, Message, Input, Image, Card} from 'semantic-ui-react';
 import config from '../config';
 import axios from 'axios';
 import aws4 from 'aws4';
@@ -25,13 +25,13 @@ class Chat extends Component {
     }
 
     let signedRequest = aws4.sign({
-      host: 'gb4olxxq6c.execute-api.us-east-1.amazonaws.com',
+      host: '8j56nswfh9.execute-api.us-east-1.amazonaws.com',
       method:'POST',
-      url:'https://gb4olxxq6c.execute-api.us-east-1.amazonaws.com/dev/chatbot',
+      url:'https://8j56nswfh9.execute-api.us-east-1.amazonaws.com/dev/chatbot',
       path:'/dev/chatbot',
       headers: {
         'content-type': 'application/json',
-        'x-api-key':'rNCqmeZd5aRdx4TUAQLO1Yh02nolwQDazR32z7d9',
+        'x-api-key':config.apiKey,
       },
       secretAccessKey: config.accessKeyId,
       accessKeyId: config.secretAccessKey,
@@ -43,7 +43,7 @@ class Chat extends Component {
     delete signedRequest.headers['Content-Length']
 
     let response = await axios(signedRequest);
-    console.log(response.data);
+    //console.log(response.data);
     this.setState({msg:response.data.body});
   }
 
@@ -61,31 +61,38 @@ class Chat extends Component {
     if (this.state.msg === ''){
       statusMessage = null;
     }else{
-      statusMessage = <Message floating positive header="Bot says" content={this.state.msg} />;
+      statusMessage = (
+        <Card fluid>
+          <Card.Content>
+            <Image floated='left' size='mini' src={require('../media/molly.png')} />
+            <Card.Header>Molly</Card.Header>
+            <Card.Description>
+              {this.state.msg}
+            </Card.Description>
+          </Card.Content>
+        </Card>
+      );
     }
 
     return (
       <div>
         <h2>Type Away :D</h2>
         <Grid stackable>
-          <Grid.Column width={12}>
+          <Grid.Column>
             <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-              <Form.Field>
-                <label>Chat Message</label>
-                {/*<textarea onChange={event => this.setState({chatMsg:event.target.value})} ></textarea>*/}
-                <Input onChange={event => this.setState({chatMsg:event.target.value})} ></Input>
-              </Form.Field>
-              <Message error header="Oops!" content={this.state.errorMessage} />
-              <Button primary basic loading={this.state.loading}>
-                Send
-              </Button>
+              <Form.Group>
+                <Form.Field width={12}>
+                  <label>Chat Message</label>
+                  {/*<textarea onChange={event => this.setState({chatMsg:event.target.value})} ></textarea>*/}
+                  <Input onChange={event => this.setState({chatMsg:event.target.value, msg:''})} ></Input>
+                </Form.Field>
+                <Message error header="Oops!" content={this.state.errorMessage} />
+                <Button floated='right' primary basic loading={this.state.loading}>
+                  Send
+                </Button>
+              </Form.Group>
               {statusMessage}
             </Form>
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <Grid.Row>
-              Chatting!
-            </Grid.Row>
           </Grid.Column>
         </Grid>
       </div>
