@@ -2,7 +2,7 @@
 
 ## Install
 ```
-$ git clone https://github.com/vutsalsinghal/Zatanna.git
+$ git clone https://github.com/vutsalsinghal/AWS_Chatbot.git
 $ npm install
 $ npm run start
 ```
