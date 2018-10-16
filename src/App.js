@@ -11,11 +11,9 @@ class App extends Component {
       <BrowserRouter>
         <Layout>
           <Switch>
-            <Route exact path="/AWS_Chatbot" component={Home} />
-            <Route path="/AWS_Chatbot/chat" component={Chat} />
-            <Route path="/AWS_Chatbot/list" component={List} />
-            <Route path="/AWS_Chatbot/login" />
-            <Route path="/AWS_Chatbot/logout" />
+            <Route exact path="/" component={Home} />
+            <Route path="/chat" component={Chat} />
+            <Route path="/list" component={List} />
           </Switch>
         </Layout>
       </BrowserRouter>
