@@ -35,7 +35,9 @@ class Home extends Component {
                 <br /><br /><br />
                 <h3>Start Chatting Now!</h3>
                 <br /><br />
-                <Link to='/chat'><Button primary>Chat</Button></Link>
+                <Link to='/chat'><Button primary>Chat</Button></Link><br /><br/>
+                <Link to='/register'><Button primary>Register</Button></Link>
+                <Link to='/login'><Button primary>Login</Button></Link>
                 <br /><br /><br />
               </Card.Description>
             </Card.Content>

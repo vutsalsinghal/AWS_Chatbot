@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import Chat from './components/Chat';
 import List from './components/List';
+import Register from './components/UserRegister';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/chat" component={Chat} />
             <Route path="/list" component={List} />
+            <Route path="/register" component={Register} />
           </Switch>
         </Layout>
       </BrowserRouter>
