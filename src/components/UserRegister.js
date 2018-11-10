@@ -3,7 +3,7 @@ import {Grid, Loader, Dimmer, Form, Button, Message, Input} from 'semantic-ui-re
 import config from '../config';
 
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+//const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
 const poolData = {
   UserPoolId: config.cognito.userPoolId,
@@ -37,7 +37,6 @@ class Register extends Component {
     
     userPool.signUp(this.state.email, this.state.password, attributeList, null, (err, result) => {
       if (err) {
-        console.log(err.message);
         this.setState({errorMessage:err.message});
         return;
       }

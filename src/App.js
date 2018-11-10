@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Chat from './components/Chat';
 import List from './components/List';
 import Register from './components/UserRegister';
+import Login from './components/UserLogin';
 
 class App extends Component {
   render() {
@@ -12,10 +13,11 @@ class App extends Component {
       <BrowserRouter>
         <Layout>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/chat" component={Chat} />
-            <Route path="/list" component={List} />
-            <Route path="/register" component={Register} />
+            <Route exact path="/AWS_Chatbot" component={Home} />
+            <Route path="/AWS_Chatbot/chat" component={Chat} />
+            <Route path="/AWS_Chatbot/list" component={List} />
+            <Route path="/AWS_Chatbot/register" component={Register} />
+            <Route path="/AWS_Chatbot/login" component={Login} />
           </Switch>
         </Layout>
       </BrowserRouter>
