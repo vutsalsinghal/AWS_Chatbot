@@ -9,7 +9,7 @@ class Home extends Component {
 
   async componentDidMount(){
     this.setState({loadingData:true});
-    document.title = "Chatbot";
+    document.title = "DiningConcierge";
     this.setState({loadingData:false});
   }
 
@@ -35,9 +35,7 @@ class Home extends Component {
                 <br /><br /><br />
                 <h3>Start Chatting Now!</h3>
                 <br /><br />
-                <Link to='/AWS_Chatbot/chat'><Button primary>Chat</Button></Link><br /><br/>
-                <Link to='/AWS_Chatbot/register'><Button primary>Register</Button></Link>
-                <Link to='/AWS_Chatbot/login'><Button primary>Login</Button></Link>
+                <Link to='/AWS_Chatbot/chat'><Button primary>Chat</Button></Link>
                 <br /><br /><br />
               </Card.Description>
             </Card.Content>

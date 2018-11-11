@@ -4,6 +4,12 @@ import config from '../config';
 import axios from 'axios';
 import aws4 from 'aws4';
 
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+const poolData = {
+  UserPoolId: config.cognito.userPoolId,
+  ClientId: config.cognito.clientId
+};
+
 class Chat extends Component {
     state = {
     loadingData:false,
@@ -15,13 +21,20 @@ class Chat extends Component {
 
   async componentDidMount(){
     this.setState({loadingData:true});
-    document.title = "Chatbot";
-    this.setState({loadingData:false});
+    document.title = "DiningConcierge | Chat";
+
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var cognitoUser = userPool.getCurrentUser();
+
+    this.setState({loadingData:false, cognitoUser});
   }
 
   onSubmit = async () => {
+    this.setState({loadingData:true,chatMsg:''});
+
     let request = {
-      'chatMsg':this.state.chatMsg
+      'chatMsg':this.state.chatMsg,
+      'username':this.state.cognitoUser.username
     }
 
     let signedRequest = aws4.sign({
@@ -49,6 +62,8 @@ class Chat extends Component {
       console.log(err);
       this.setState({errorMessage:err.message});
     }
+
+    this.setState({loadingData:false});
   }
 
   render() {
@@ -80,24 +95,28 @@ class Chat extends Component {
 
     return (
       <div>
-        <h2>Type Away :D</h2>
+        <h2>Molly from DiningConcierge. How can I Help?</h2><br/>
         <Grid stackable>
-          <Grid.Column>
-          <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-            <Form.Group>
-              <Form.Field width={12}>
-                <label>Chat Message</label>
-                {/*<textarea onChange={event => this.setState({chatMsg:event.target.value})} ></textarea>*/}
-                <Input onChange={event => this.setState({chatMsg:event.target.value, msg:''})} ></Input>
-              </Form.Field>
-              <Button floated='right' primary basic loading={this.state.loading}>
-                Send
-              </Button>
-            </Form.Group>
-            <Message error header="Oops!" content={this.state.errorMessage} />
-            {statusMessage}
-          </Form>
-          </Grid.Column>
+          {this.state.cognitoUser!=null &&
+            <Grid.Column>
+              <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+                <Form.Field>
+                  <label>Chat Message</label>
+                  <Input onChange={event => this.setState({chatMsg:event.target.value, msg:''})} ></Input>
+                </Form.Field>
+                <Button floated='right' primary basic loading={this.state.loading}>
+                  Send
+                </Button>
+                
+                <Message error header="Oops!" content={this.state.errorMessage} />
+                {statusMessage}
+              </Form>
+            </Grid.Column>
+          }
+
+          {this.state.cognitoUser==null &&
+            <h3>Register/LogIn please!</h3>
+          }
         </Grid>
       </div>
     );

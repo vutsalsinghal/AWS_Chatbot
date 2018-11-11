@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Loader, Dimmer, Form, Button, Message, Input} from 'semantic-ui-react';
+import {Grid, Loader, Dimmer, Form, Button, Message, Input, Icon} from 'semantic-ui-react';
 import config from '../config';
 
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
@@ -9,7 +9,7 @@ const poolData = {
   ClientId: config.cognito.clientId
 };
 
-class Login extends Component {
+class LogInOut extends Component {
   state = {
     loadingData:false,
     loading:false,
@@ -18,11 +18,13 @@ class Login extends Component {
     email:'',
     password:'',
     loggedin:false,
+    userPool:'',
+    cognitoUser:''
   }
 
   async componentDidMount(){
     this.setState({loadingData:true});
-    document.title = "Bootmaster | Login";
+    document.title = "DiningConcierge";
 
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
@@ -33,23 +35,20 @@ class Login extends Component {
         if (err) {
           alert(err);
           return;
-        }
-        //console.log('session validity: ' + session.isValid());
-        
+        }        
       });
     }
-    this.setState({loadingData:false});
+    this.setState({loadingData:false, cognitoUser, userPool});
   }
 
-  onSubmit = async () => {
+  onLogin = async () => {
     this.setState({errorMessage:''});
 
     var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({Username:this.state.email, Password:this.state.password});
-    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
     var userData = {
       Username: this.state.email,
-      Pool: userPool,
+      Pool: this.state.userPool,
     };
     
     let msg = '';
@@ -59,7 +58,6 @@ class Login extends Component {
     
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: function (result) {
-        //var accessToken = result.getAccessToken().getJwtToken();
         msg ="You're Logged In!";
       },
       
@@ -72,10 +70,18 @@ class Login extends Component {
       if (msg === '' && errorMessage === '') {
       }else{
         clearInterval(tmr);
-        this.setState({msg:msg,errorMessage:errorMessage});
+        this.setState({msg,errorMessage});
       }
     }, 1000);
     
+  }
+
+  onLogout = async () => {
+    this.setState({errorMessage:''});
+    if (this.state.cognitoUser != null) {
+      this.state.cognitoUser.signOut();
+      this.setState({msg:"You've been logged out!"});
+    }
   }
 
   render() {
@@ -105,7 +111,7 @@ class Login extends Component {
         <Grid stackable>
           <Grid.Column>
           {this.state.loggedin===false && 
-            <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+            <Form onSubmit={this.onLogin} error={!!this.state.errorMessage}>
               <Form.Group widths='equal'>
                 <Form.Field>
                   <label>Email</label>
@@ -117,7 +123,7 @@ class Login extends Component {
                 </Form.Field>
               </Form.Group>
               <Button floated='right' primary basic loading={this.state.loading}>
-                Login
+                <Icon name='sign-in' />Login
               </Button>
               
               <Message error header="Oops!" content={this.state.errorMessage} />
@@ -126,7 +132,14 @@ class Login extends Component {
           }
 
           {this.state.loggedin===true &&
-            <h3>You're Logged in</h3>
+            <Form onSubmit={this.onLogout} error={!!this.state.errorMessage}>
+              Are you sure you want to logout?
+              <Button floated='right' primary loading={this.state.loading}>
+                <Icon name='sign-out' />Logout
+              </Button>
+              <Message error header="Oops!" content={this.state.errorMessage} />
+              {statusMessage}
+            </Form>
           }
           </Grid.Column>
         </Grid>
@@ -135,4 +148,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default LogInOut;

@@ -1,21 +1,21 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Menu, Icon, Modal} from 'semantic-ui-react';
-import Logout from './UserLogout';
+import LogInOut from './UserLogInOut';
 
 export default () => {
   return (
     <Menu style={{ marginTop:'10px' }}>
-      <Menu.Item><Link to='/AWS_Chatbot'>Botmaster</Link></Menu.Item>
+      <Menu.Item><Link to='/AWS_Chatbot'>DiningConcierge</Link></Menu.Item>
 
       <Menu.Menu position="right">
-        <Menu.Item><Link to='/AWS_Chatbot/chat'><Icon name='tasks' />Chat</Link></Menu.Item>
+        <Menu.Item><Link to='/AWS_Chatbot/register'><Icon name='address card outline' />Register</Link></Menu.Item>
         
-        <Modal size={'mini'} trigger={<Menu.Item>Logout</Menu.Item>}>
-          <Modal.Header>Logout</Modal.Header>
+        <Modal size={'tiny'} trigger={<Menu.Item>Log In/Out</Menu.Item>}>
+          <Modal.Header>LogIn/Logout</Modal.Header>
           <Modal.Content>
             <Modal.Description>
-              <Logout />      
+              <LogInOut />
             </Modal.Description>
           </Modal.Content>
         </Modal>
