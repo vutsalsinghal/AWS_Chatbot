@@ -1,4 +1,4 @@
-# [AWS Chatbot](http://botmaster.s3-website-us-east-1.amazonaws.com)
+# [DiningConcierge](https://vutsalsinghal.github.io/AWS_Chatbot)
 
 ## Install
 ```
@@ -8,4 +8,20 @@ $ npm run start
 ```
 
 ## Configure
-- Create a file config.js inside `src` directory with the AWS IAM accesskey and API KEY
+- Create a file config.js inside `./src` directory with the following structure:
+```
+const config = {
+    accessKeyId: '<access-ID>',
+    secretAccessKey: '<access-key>',
+    apiKey:'<API-KEY>',
+    cognito:{
+        userPoolId: '<user-pool-ID>',
+        identityPoolId:"<pool-ID>",
+        region:'us-east-1',
+        clientId:'<client-ID>'
+    }
+};
+
+export default config;
+```
+
